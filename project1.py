@@ -19,7 +19,7 @@ def loadresults(f):
         d[i+1] = rows[i+1]
     # for crop_variable in header:
     #     d[crop_variable] = {}
-    print(d)
+    #print(d)
     
     # for row in rows[1:]:
     #     region = row[0]
