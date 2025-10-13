@@ -1,3 +1,9 @@
+# Daniel Sun
+# 24075563
+# danielws@umich.edu
+# Collaborated with Micah Santow
+
+
 import unittest
 import os
 import csv
@@ -39,6 +45,12 @@ def loadresults(f):
 
 
 #def get_crop_results 
+
+
+class TestFunctions(unittest.TestCase):
+    def test_crop_function_1(self):
+        #change test_crop_function_1 to whatever I end up calling the function
+        self.assertEqual(crop_function_1(), )
 
 
 def main():
