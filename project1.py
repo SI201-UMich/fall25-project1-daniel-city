@@ -85,7 +85,22 @@ def region_sunny_days(d):
 #def get_crop_results 
 
 def harvest_irrigation(d):
-    print(8/17)
+    harvest_irrigation_dict = {}
+    weather_dict = {}
+    no_irrigation_count = 0
+    days_harvest_count = 0
+    for value in d.values():
+        if value[6] == "False":
+            no_irrigation_count += 1
+            if int(value[8]) >= 100:
+                days_harvest_count += 1
+                weather_dict[value[7]] = weather_dict.get(value[7], 0) + 1
+    if no_irrigation_count == 0:
+        return "Invalid Input. Division By Zero"
+    harvest_proportion = days_harvest_count / no_irrigation_count
+    harvest_irrigation_dict['Proportion'] = harvest_proportion
+    harvest_irrigation_dict['Weather'] = weather_dict
+    print(harvest_irrigation_dict)
 
 class TestFunctions(unittest.TestCase):
     def SetUp(self):
@@ -96,7 +111,7 @@ class TestFunctions(unittest.TestCase):
         #Edge case 1: if the data set is empty
         self.assertEqual(region_sunny_days({}), "Invalid Input. No Data Found")
     def test_harvest_irrigation(self):
-        self.assertEqual(harvest_irrigation(self.data), {'Proportion': 0.47058823529411764, 'Rainy': 7, 'Sunny': 6, 'Cloudy': 4})
+        self.assertEqual(harvest_irrigation(self.data), {'Proportion': 0.47058823529411764,'Weather': {'Rainy': 7, 'Sunny': 6, 'Cloudy': 4}})
         self.assertEqual(harvest_irrigation({}), "Invalid Input. No Data Found")
 
 def main():
