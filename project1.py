@@ -77,13 +77,16 @@ def region_sunny_days(d):
     
     region_sunny_days_dict["North"] = {"Average Temperature (Celsius)" : north_avg_temp, "Number of Sunny Days" : north_sunny_proportion}
     region_sunny_days_dict["South"] = {"Average Temperature (Celsius)" : south_avg_temp, "Number of Sunny Days" : south_sunny_proportion}
-    print(4/6)
     print(region_sunny_days_dict)
 
         
     # return d
 
 #def get_crop_results 
+
+def harvest_irrigation(d):
+    print(8/17)
+    print
 
 class TestFunctions(unittest.TestCase):
     def SetUp(self):
@@ -93,12 +96,15 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(region_sunny_days(self.data["South"]), {'Average Temperature (Celsius)': 26.032847771931, 'Number of Sunny Days': 0.6666666666666666})
         #Edge case 1: if the data set is empty
         self.assertEqual(region_sunny_days({}), "Invalid Input. No Data Found")
+    def test_harvest_irrigation(self):
+        self.assertEqual(harvest_irrigation(self.data), )
 
 def main():
     #unittest.main(verbosity=2)
     loadresults('crop_yield.csv')
     load_results_dict = loadresults('crop_yield.csv')
     region_sunny_days(load_results_dict)
+
 
 if __name__ == '__main__':
     main()
