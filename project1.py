@@ -86,7 +86,6 @@ def region_sunny_days(d):
 
 def harvest_irrigation(d):
     print(8/17)
-    print
 
 class TestFunctions(unittest.TestCase):
     def SetUp(self):
@@ -97,13 +96,15 @@ class TestFunctions(unittest.TestCase):
         #Edge case 1: if the data set is empty
         self.assertEqual(region_sunny_days({}), "Invalid Input. No Data Found")
     def test_harvest_irrigation(self):
-        self.assertEqual(harvest_irrigation(self.data), )
+        self.assertEqual(harvest_irrigation(self.data), {'Proportion': 0.47058823529411764, 'Rainy': 7, 'Sunny': 6, 'Cloudy': 4})
+        self.assertEqual(harvest_irrigation({}), "Invalid Input. No Data Found")
 
 def main():
     #unittest.main(verbosity=2)
     loadresults('crop_yield.csv')
     load_results_dict = loadresults('crop_yield.csv')
     region_sunny_days(load_results_dict)
+    harvest_irrigation(load_results_dict)
 
 
 if __name__ == '__main__':
