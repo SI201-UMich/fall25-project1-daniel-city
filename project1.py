@@ -2,7 +2,7 @@
 # 24075563
 # danielws@umich.edu
 # Collaborated with Micah Santow. I also went to Office Hours.
-# Used AI to help debug my code, specifically to address AttributeError: 'float' object has no attribute 'values'
+# Used AI to help debug my code, specifically in addressing error messages in my test cases.
 
 
 import unittest
