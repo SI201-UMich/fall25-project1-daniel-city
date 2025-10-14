@@ -75,6 +75,7 @@ def region_sunny_days(d):
     
     region_sunny_days_dict["East"] = {"Average Temperature (Celsius)" : east_avg_temp, "Number of Sunny Days" : east_sunny_proportion}
     region_sunny_days_dict["West"] = {"Average Temperature (Celsius)" : west_avg_temp, "Number of Sunny Days" : west_sunny_proportion}
+    print(region_sunny_days_dict)
     return region_sunny_days_dict
 
 def harvest_irrigation(d):
@@ -126,7 +127,7 @@ class TestFunctions(unittest.TestCase):
         self.assertAlmostEqual(region_test_case['East']['Average Temperature (Celsius)'], 27.688, places=3)
         #Testing to see if the Number of Sunny Days for the East Region is correct
         self.assertAlmostEqual(region_test_case['East']['Number of Sunny Days'], 0.429, places=3)
-        #Twsting to see if the dictionary (including Average Temperature and Number of Sunny Days) for the West Region is correct
+        #Testing to see if the dictionary (including Average Temperature and Number of Sunny Days) for the West Region is correct
         self.assertEqual(region_test_case['West'], {'Average Temperature (Celsius)': 27.098474845450426, 'Number of Sunny Days': 0.2})
         #Edge case 1: Resolving dvision by zero error
         self.assertEqual(region_test_case3['East']['Average Temperature (Celsius)'], 0)
