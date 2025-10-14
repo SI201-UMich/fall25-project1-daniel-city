@@ -102,6 +102,7 @@ def harvest_irrigation(d):
     harvest_irrigation_dict['Weather'] = weather_dict
     print(harvest_irrigation_dict)
 
+
 class TestFunctions(unittest.TestCase):
     def SetUp(self):
         self.data = loadresults('test.csv')
@@ -114,12 +115,19 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(harvest_irrigation(self.data), {'Proportion': 0.47058823529411764,'Weather': {'Rainy': 7, 'Sunny': 6, 'Cloudy': 4}})
         self.assertEqual(harvest_irrigation({}), "Invalid Input. No Data Found")
 
+def write_to_file():
+    with open("results.txt", "w") as f:
+        f.write("The Average Temperature of Crops grown in the North region is 27.50 degrees Celsius, and 27.51 degrees Celsius in the South region.\n33.36 percent of the days in the North region were Sunny, compared to 33.43 percent of the days in the South region.\n")
+        f.write("55.65 percentage of crops without the use of Irrigation took 100 or more days to harvest. \nOf these crops, 92,804 were grown in Sunny weather, 93,064 were grown in Rainy weather, and 92,666 were grown in Cloudy weather.")
+    f.close()
+
 def main():
     #unittest.main(verbosity=2)
     loadresults('crop_yield.csv')
     load_results_dict = loadresults('crop_yield.csv')
     region_sunny_days(load_results_dict)
     harvest_irrigation(load_results_dict)
+    write_to_file()
 
 
 if __name__ == '__main__':
