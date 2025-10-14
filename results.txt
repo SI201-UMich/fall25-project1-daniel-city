@@ -1,1 +1,2 @@
 {'East': {'Average Temperature (Celsius)': 27.503225998861506, 'Number of Sunny Days': 0.33482312704496214}, 'West': {'Average Temperature (Celsius)': 27.517882142530325, 'Number of Sunny Days': 0.3324495949199037}}
+{'Proportion': 0.5565014814918413, 'Weather': {'Sunny': 92804, 'Rainy': 93064, 'Cloudy': 92666}}
