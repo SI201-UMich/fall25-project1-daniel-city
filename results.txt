@@ -1,4 +1,1 @@
-The Average Temperature of Crops grown in the North region is 27.50 degrees Celsius, and 27.51 degrees Celsius in the South region.
-33.36 percent of the days in the North region were Sunny, compared to 33.43 percent of the days in the South region.
-55.65 percentage of crops without the use of Irrigation took 100 or more days to harvest. 
-Of these crops, 92,804 were grown in Sunny weather, 93,064 were grown in Rainy weather, and 92,666 were grown in Cloudy weather.
+{'East': {'Average Temperature (Celsius)': 27.503225998861506, 'Number of Sunny Days': 0.33482312704496214}, 'West': {'Average Temperature (Celsius)': 27.517882142530325, 'Number of Sunny Days': 0.3324495949199037}}

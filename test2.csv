@@ -1,0 +1,2 @@
+Region,Soil_Type,Crop,Rainfall_mm,Temperature_Celsius,Fertilizer_Used,Irrigation_Used,Weather_Condition,Days_to_Harvest,Yield_tons_per_hectare
+Southwest,Silt,Wheat,300,Unknown,True,Unknown,Dry,Unknown,5.6

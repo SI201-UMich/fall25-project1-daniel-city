@@ -41,7 +41,7 @@ def loadresults(f):
     # for row in d:
     #     d[i]
     #print(d)
-    
+    #print(3/7)
     return d
 
 def region_sunny_days(d):
@@ -51,36 +51,38 @@ def region_sunny_days(d):
     #         count +=1
     # print(count)
     region_sunny_days_dict = {}
-    north_dict = {}
-    south_dict = {}
-    north_temp_count = 0
-    north_count = 0
-    north_sunny_count = 0
-    south_temp_count = 0
-    south_count = 0
-    south_sunny_count = 0
+    east_dict = {}
+    west_dict = {}
+    east_temp_count = 0
+    east_count = 0
+    east_sunny_count = 0
+    west_temp_count = 0
+    west_count = 0
+    west_sunny_count = 0
     for value in d.values():
-        if value[0] == "North":
-            north_temp_count += float(value[4])
-            north_count += 1
+        if value[0] == "East":
+            east_temp_count += float(value[4])
+            east_count += 1
             if value[7] == "Sunny":
-                north_sunny_count += 1
-        if value[0] == "South":
-            south_temp_count += float(value[4])
-            south_count += 1
+                east_sunny_count += 1
+        if value[0] == "West":
+            west_temp_count += float(value[4])
+            west_count += 1
             if value[7] == "Sunny":
-                south_sunny_count += 1
-    north_avg_temp = north_temp_count / north_count
-    south_avg_temp = south_temp_count / south_count
-    north_sunny_proportion = north_sunny_count / north_count
-    south_sunny_proportion = south_sunny_count / south_count
+                west_sunny_count += 1
+        if value[0] != "North" and value[0] != "East" and value[0] != "South" and value[0] != "West":
+            return "Invalid Input. Please input either North, East, South, or West as a direction."
+    east_avg_temp = east_temp_count / east_count
+    west_avg_temp = west_temp_count / west_count
+    east_sunny_proportion = east_sunny_count / east_count
+    west_sunny_proportion = west_sunny_count / west_count
     
-    region_sunny_days_dict["North"] = {"Average Temperature (Celsius)" : north_avg_temp, "Number of Sunny Days" : north_sunny_proportion}
-    region_sunny_days_dict["South"] = {"Average Temperature (Celsius)" : south_avg_temp, "Number of Sunny Days" : south_sunny_proportion}
+    region_sunny_days_dict["East"] = {"Average Temperature (Celsius)" : east_avg_temp, "Number of Sunny Days" : east_sunny_proportion}
+    region_sunny_days_dict["West"] = {"Average Temperature (Celsius)" : west_avg_temp, "Number of Sunny Days" : west_sunny_proportion}
     print(region_sunny_days_dict)
 
         
-    # return d
+    return region_sunny_days_dict
 
 #def get_crop_results 
 
@@ -90,6 +92,8 @@ def harvest_irrigation(d):
     no_irrigation_count = 0
     days_harvest_count = 0
     for value in d.values():
+        if value[6] != "True" and value[6] != "False":
+            return "Invalid Input. Please input either True or False for if Irrigation was used"
         if value[6] == "False":
             no_irrigation_count += 1
             if int(value[8]) >= 100:
@@ -102,24 +106,35 @@ def harvest_irrigation(d):
     harvest_irrigation_dict['Weather'] = weather_dict
     print(harvest_irrigation_dict)
 
+def output(region_sunny_days):
+    with open("results.txt", "w") as fh:
+        fh.write(str(region_sunny_days))
+    fh.close()
 
 class TestFunctions(unittest.TestCase):
     def SetUp(self):
         self.data = loadresults('test.csv')
+        self.data2 = loadresults('test2.csv')
     def test_region_sunny_days(self):
-        self.assertEqual(region_sunny_days(self.data["North"]), {'Average Temperature (Celsius)': 25.648624717261, 'Number of Sunny Days': 0.5})
-        self.assertEqual(region_sunny_days(self.data["South"]), {'Average Temperature (Celsius)': 26.032847771931, 'Number of Sunny Days': 0.6666666666666666})
+        self.assertEqual(region_sunny_days(self.data['East']), {'Average Temperature (Celsius)': 27.688129491006, 'Number of Sunny Days': 0.42857142857142855})
+        self.assertEqual(region_sunny_days(self.data['West']), {'Average Temperature (Celsius)': 27.09847484545, 'Number of Sunny Days': 0.25})
         #Edge case 1: if the data set is empty
         self.assertEqual(region_sunny_days({}), "Invalid Input. No Data Found")
+        self.assertEqual(region_sunny_days(self.data2), "Invalid Input. Please input either North, East, South, or West as a direction.")
     def test_harvest_irrigation(self):
-        self.assertEqual(harvest_irrigation(self.data), {'Proportion': 0.47058823529411764,'Weather': {'Rainy': 7, 'Sunny': 6, 'Cloudy': 4}})
+        self.assertEqual(harvest_irrigation(self.data['Proportion']), 0.47058823529411764)
+        self.assertEqual(harvest_irrigation(self.data['Weather']), {'Rainy': 7, 'Sunny': 6, 'Cloudy': 4})
+        #Edge case 1: if the data set is empty
         self.assertEqual(harvest_irrigation({}), "Invalid Input. No Data Found")
+        self.assertEqual(region_sunny_days(self.data2), "Invalid Input. Please input either True or False for if Irrigation was used")
 
-def write_to_file():
-    with open("results.txt", "w") as f:
-        f.write("The Average Temperature of Crops grown in the North region is 27.50 degrees Celsius, and 27.51 degrees Celsius in the South region.\n33.36 percent of the days in the North region were Sunny, compared to 33.43 percent of the days in the South region.\n")
-        f.write("55.65 percentage of crops without the use of Irrigation took 100 or more days to harvest. \nOf these crops, 92,804 were grown in Sunny weather, 93,064 were grown in Rainy weather, and 92,666 were grown in Cloudy weather.")
-    f.close()
+# def write_to_file():
+#     #function_1_text = "The Average Temperature of Crops grown in the East region is " + east_avg_temp + "degrees Celsius, and " + west_avg_temp + " degrees Celsius in the West region.\n33.36 percent of the days in the East region were Sunny, compared to 33.43 percent of the days in the West region.\n"
+#     with open("results.txt", "w") as f:
+#         #f.write(function_1_text)
+#         f.write("The Average Temperature of Crops grown in the East region is 27.50 degrees Celsius, and 27.51 degrees Celsius in the West region.\n33.36 percent of the days in the East region were Sunny, compared to 33.43 percent of the days in the West region.\n")
+#         f.write("55.65 percentage of crops without the use of Irrigation took 100 or more days to harvest. \nOf these crops, 92,804 were grown in Sunny weather, 93,064 were grown in Rainy weather, and 92,666 were grown in Cloudy weather.")
+#     f.close()
 
 def main():
     #unittest.main(verbosity=2)
@@ -127,8 +142,8 @@ def main():
     load_results_dict = loadresults('crop_yield.csv')
     region_sunny_days(load_results_dict)
     harvest_irrigation(load_results_dict)
-    write_to_file()
-
+    results = region_sunny_days(load_results_dict)
+    output_result = output(results)
 
 if __name__ == '__main__':
     main()
