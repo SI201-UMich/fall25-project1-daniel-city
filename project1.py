@@ -25,31 +25,9 @@ def loadresults(f):
         d[i+1] = rows[i+1]
     if len(d) == 0:
         return "Invalid Input. No Data Found."
-    # for crop_variable in header:
-    #     d[crop_variable] = {}
-    #print(d)
-    
-    # for row in rows[1:]:
-    #     region = row[0]
-    #     for i, crop_variable in enumerate(header):
-    #         d[crop_variable][region] = row[i+1]
-
-    # for row in rows[1:]:
-    #     for i, crop_variable in enumerate(header):
-    #         d[crop_variable][i] = row[i+1]
-
-    # for row in d:
-    #     d[i]
-    #print(d)
-    #print(3/7)
     return d
 
 def region_sunny_days(d):
-    # count = 0
-    # for value in d.values():
-    #     if value[0] == "West":
-    #         count +=1
-    # print(count)
     region_sunny_days_dict = {}
     east_dict = {}
     west_dict = {}
@@ -80,15 +58,19 @@ def region_sunny_days(d):
         west_avg_temp = west_temp_count / west_count
     except:
         west_avg_temp = 0
-    east_sunny_proportion = east_sunny_count / east_count
-    west_sunny_proportion = west_sunny_count / west_count
+    try:
+        east_sunny_proportion = east_sunny_count / east_count
+    except:
+        east_sunny_proportion = 0
+    try:
+        west_sunny_proportion = west_sunny_count / west_count
+    except:
+        west_sunny_proportion = 0
     
     region_sunny_days_dict["East"] = {"Average Temperature (Celsius)" : east_avg_temp, "Number of Sunny Days" : east_sunny_proportion}
     region_sunny_days_dict["West"] = {"Average Temperature (Celsius)" : west_avg_temp, "Number of Sunny Days" : west_sunny_proportion}
     print(region_sunny_days_dict)
     return region_sunny_days_dict
-
-#def get_crop_results 
 
 def harvest_irrigation(d):
     harvest_irrigation_dict = {}
@@ -117,32 +99,31 @@ def output(region_sunny_days, harvest_irrigation):
     fh.close()
 
 class TestFunctions(unittest.TestCase):
-    def SetUp(self):
+    def setUp(self):
         self.data = loadresults('test.csv')
         self.data2 = loadresults('test2.csv')
         self.data3 = loadresults('test3.csv')
     def test_region_sunny_days(self):
-        self.assertEqual(region_sunny_days(self.data['East']), {'Average Temperature (Celsius)': 27.688129491006, 'Number of Sunny Days': 0.42857142857142855})
-        self.assertEqual(region_sunny_days(self.data['West']), {'Average Temperature (Celsius)': 27.09847484545, 'Number of Sunny Days': 0.25})
+        region_test_case = region_sunny_days(self.data)
+        region_test_case2 = region_sunny_days(self.data2)
+        region_test_case3 = region_sunny_days(self.data3)
+        #self.assertEqual(region_sunny_days(self.data['East']), {'Average Temperature (Celsius)': 27.688129491006, 'Number of Sunny Days': 0.42857142857142855})
+        self.assertAlmostEqual(region_sunny_days(region_test_case['East']['Average Temperature (Celsius)']), 27.688, places=3)
+        self.assertAlmostEqual(region_sunny_days(region_test_case['East']['Number of Sunny Days']), 0.429, places=3)
+        self.assertEqual(region_sunny_days(region_test_case['West']), {'Average Temperature (Celsius)': 27.09847484545, 'Number of Sunny Days': 0.25})
         #Edge case 1: Resolving dvision by zero error
-        self.assertEqual(region_sunny_days(self.data3['East']['Average Temperature (Celsius)']), 0)
+        self.assertEqual(region_sunny_days(region_test_case3['East']['Average Temperature (Celsius)']), 0)
         #Edge case 2: if something other than North, East, South, or West was provided for the Region column
-        self.assertEqual(region_sunny_days(self.data2), "Invalid Input. Please input either North, East, South, or West as a direction.")
+        self.assertEqual(region_sunny_days(region_test_case2), "Invalid Input. Please input either North, East, South, or West as a direction.")
     def test_harvest_irrigation(self):
-        self.assertEqual(harvest_irrigation(self.data['Proportion']), 0.47058823529411764)
-        self.assertEqual(harvest_irrigation(self.data['Weather']), {'Rainy': 7, 'Sunny': 6, 'Cloudy': 4})
+        harvest_test_case = harvest_irrigation(self.data)
+        harvest_test_case2 = harvest_irrigation(self.data2)
+        self.assertEqual(harvest_irrigation(harvest_test_case['Proportion']), 0.47058823529411764)
+        self.assertEqual(harvest_irrigation(harvest_test_case['Weather']), {'Rainy': 7, 'Sunny': 6, 'Cloudy': 4})
         #Edge case 1: if the data set is empty
         self.assertEqual(harvest_irrigation({}), "Invalid Input. No Data Found")
         #Edge case 2: if neither True or False is provided for the Irrigation_Used column
-        self.assertEqual(harvest_irrigation(self.data2), "Invalid Input. Please input either True or False for if Irrigation was used")
-
-# def write_to_file():
-#     #function_1_text = "The Average Temperature of Crops grown in the East region is " + east_avg_temp + "degrees Celsius, and " + west_avg_temp + " degrees Celsius in the West region.\n33.36 percent of the days in the East region were Sunny, compared to 33.43 percent of the days in the West region.\n"
-#     with open("results.txt", "w") as f:
-#         #f.write(function_1_text)
-#         f.write("The Average Temperature of Crops grown in the East region is 27.50 degrees Celsius, and 27.51 degrees Celsius in the West region.\n33.36 percent of the days in the East region were Sunny, compared to 33.43 percent of the days in the West region.\n")
-#         f.write("55.65 percentage of crops without the use of Irrigation took 100 or more days to harvest. \nOf these crops, 92,804 were grown in Sunny weather, 93,064 were grown in Rainy weather, and 92,666 were grown in Cloudy weather.")
-#     f.close()
+        self.assertEqual(harvest_irrigation(harvest_test_case2), "Invalid Input. Please input either True or False for if Irrigation was used")
 
 def main():
     #unittest.main(verbosity=2)
