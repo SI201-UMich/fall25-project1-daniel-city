@@ -2,7 +2,7 @@
 # 24075563
 # danielws@umich.edu
 # Collaborated with Micah Santow. I also went to Office Hours.
-# Used AI to help debug my code, specifically in addressing error messages in my test cases.
+# Used AI to help debug my code, specifically in addressing error messages in my test cases. For instance, I inputted my error message from the VSCode terminal to AI, and asked it to explain why that error was happening.
 
 
 import unittest
